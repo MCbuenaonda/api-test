@@ -1,0 +1,168 @@
+swagger: "2.0"
+info:
+  description: "Documentacion de  Test API"
+  version: "1.0.0"
+  title: "Documentacion de Test API"
+  contact:
+    email: "ing.carlos.cerati@gmail.com"
+  licence:
+    name: "ICG-DATA"
+#host: "www.icgsistemas.com"
+host: "192.168.0.14:5001"
+basePath: "/"
+tags:
+- name: "corporativo"
+  description: "Servicios de corporativo"
+schemes:
+#- "https"
+- "http"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+paths:
+  /products:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+      - "productos"
+      summary: "Listado de productos"
+      description: "Obtener productos"
+      operationId: "productos"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Lista de productos"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Products"
+        "400":
+          description: "Ocurrio un error"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Errors"
+        "401":
+          description: "No autorizado"
+    post:
+      tags:
+      - "productos"
+      summary: "crear productos"
+      description: "crear productos"
+      operationId: "productos_insert"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "propiedades del objetos productos"
+        required: true
+        schema:
+          $ref: "#/definitions/Products"
+      responses:
+        "405":          
+          description: "Input invalido"
+  /products/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+      - "productos"
+      summary: "Obtener producto por Id"
+      description: "Obtener producto"
+      operationId: "producto_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id de Producto"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "Lista de productos"
+          schema:
+            type: "object"            
+            $ref: "#/definitions/Products"
+        "400":
+          description: "Ocurrio un error"
+          schema:
+            $ref: "#/definitions/Errors"
+        "401":
+          description: "No autorizado"
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+      - "productos"
+      summary: "Actualizar producto"
+      description: "Actualizar producto"
+      operationId: "producto_update"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id de Producto"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Propiedades del objeto Producto"
+        required: true
+        schema:
+          $ref: "#/definitions/Products"
+      responses:        
+        "400":
+          description: "Id Invalido"          
+        "404":
+          description: "Producto no encontrado"
+        "405":
+          description: "Error de validacion"
+definitions:
+  Products:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        default: 1
+      code:
+        type: "string"
+        default: "XXX000"
+      name:
+        type: "string"
+        default: "Producto"
+      qty:
+        type: "integer"
+        default: 1
+      amount:
+        type: "decimal"
+        default: 1.00
+      image:
+        type: "string"
+        default: "url"
+      active:
+        type: "integer"
+        default: 1
+      business_id:
+        type: "integer"
+        default: 1
+      category_id:
+        type: "integer"
+        default: 1      
+  Errors:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        default: 01
+      message:
+        type: "string"
+        default: "detalle de error"
