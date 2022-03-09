@@ -8,7 +8,7 @@ info:
   licence:
     name: "ICG-DATA"
 #host: "www.icgsistemas.com"
-host: "192.168.0.14:5001"
+host: "localhost:5001"
 basePath: "/"
 tags:
 - name: "corporativo"
@@ -155,6 +155,12 @@ definitions:
         type: "integer"
         default: 1
       category_id:
+        type: "integer"
+        default: 1
+      car_brand_id:
+        type: "integer"
+        default: 1
+      car_model_id:
         type: "integer"
         default: 1      
   Errors:
